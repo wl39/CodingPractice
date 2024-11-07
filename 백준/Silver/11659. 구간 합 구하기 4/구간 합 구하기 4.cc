@@ -2,31 +2,45 @@
 
 using namespace std;
 
+// struct;
+/**
+ * 5 3
+    5 4 3 2 1
+    1 3
+    2 4
+    5 5
+ */
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int n = 0, m = 0;
+    int N, M;
 
-    cin >> n >> m;
+    cin >> N >> M;
 
-    int s[1000001];
+    int A[N];
+    int S[N + 1];
 
-    for (int i = 1; i <= n; i++)
+    for (int i = 0; i < N; i++)
     {
-        int temp;
-        cin >> temp;
-        s[i] = s[i - 1] + temp;
+        cin >> A[i];
+
+        S[i + 1] = S[i] + A[i];
     }
 
-    for (int i = 0; i < m; i++)
+    int i, j;
+
+    // 0 1 2 3 4
+    // 1 2 3 4 5
+    // 5 4 3 2 1
+    // 1 3 6
+
+    for (int m = 0; m < M; m++)
     {
-        int from = 0, to = 0;
+        cin >> i >> j;
 
-        cin >> from >> to;
-
-        cout << s[to] - s[from - 1] << '\n';
+        cout << S[j] - S[i - 1] << '\n';
     }
 }
