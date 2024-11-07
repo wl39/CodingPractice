@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 int main()
@@ -9,32 +8,28 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    long n, m;
+    long N, M;
 
-    cin >> n >> m;
+    cin >> N >> M;
 
-    vector<long> sum(n + 1, 0);
-    vector<long> modu(m, 0);
-    for (int i = 1; i <= n; i++)
+    vector<long> S(N + 1, 0);
+    vector<long> MOD(M, 0);
+
+    for (int i = 0; i < N; i++)
     {
-        int temp;
-        cin >> temp;
+        int a;
+        cin >> a;
 
-        sum[i] = sum[i - 1] + temp;
+        S[i + 1] = S[i] + a;
+        MOD[S[i + 1] % M]++;
     }
 
-    for (int i = 1; i <= n; i++)
+    long long result = 0;
+
+    for (int i = 0; i < M; i++)
     {
-        modu[sum[i] % m]++;
+        result += MOD[i] * (MOD[i] - 1) / 2;
     }
 
-    long long result = modu[0];
-
-    for (int i = 0; i < m; i++)
-    {
-        if (modu[i] > 0)
-            result += modu[i] * (modu[i] - 1) / 2;
-    }
-
-    cout << result << '\n';
+    cout << (result + MOD[0]) << endl;
 }
