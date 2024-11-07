@@ -1,10 +1,7 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
-
-bool check(int req[], int act[]);
 
 int main()
 {
@@ -12,45 +9,39 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int count, s, p;
-    string str;
-    int a, c, g, t;
+    int N, M, result = 0;
 
-    int req[26] = {0};
-    int act[26] = {0};
+    cin >> N >> M;
 
-    cin >> s >> p >> str >> a >> c >> g >> t;
+    string s;
 
-    req['A' - 'A'] = a;
-    req['C' - 'A'] = c;
-    req['G' - 'A'] = g;
-    req['T' - 'A'] = t;
+    cin >> s;
 
-    for (int i = 0; i < p; i++)
+    int T[26] = {0};
+    int C[26] = {0};
+
+    cin >> T['A' - 'A'] >> T['C' - 'A'] >> T['G' - 'A'] >> T['T' - 'A'];
+
+    for (int i = 0; i < M; i++)
     {
-        act[str[i] - 'A']++;
+        C[s[i] - 'A']++;
     }
 
-    if (check(req, act))
+    if (C['A' - 'A'] >= T['A' - 'A'] && C['C' - 'A'] >= T['C' - 'A'] && C['G' - 'A'] >= T['G' - 'A'] && C['T' - 'A'] >= T['T' - 'A'])
     {
-        count++;
+        result++;
     }
 
-    for (int i = p; i < str.length(); i++)
+    for (int i = M; i < N; i++)
     {
-        act[str[i - p] - 'A']--;
-        act[str[i] - 'A']++;
+        C[s[i - M] - 'A']--;
+        C[s[i] - 'A']++;
 
-        if (check(req, act))
+        if (C['A' - 'A'] >= T['A' - 'A'] && C['C' - 'A'] >= T['C' - 'A'] && C['G' - 'A'] >= T['G' - 'A'] && C['T' - 'A'] >= T['T' - 'A'])
         {
-            count++;
+            result++;
         }
     }
 
-    cout << count << '\n';
-}
-
-bool check(int req[], int act[])
-{
-    return req['A' - 'A'] <= act['A' - 'A'] && req['C' - 'A'] <= act['C' - 'A'] && req['G' - 'A'] <= act['G' - 'A'] && req['T' - 'A'] <= act['T' - 'A'];
+    cout << result << endl;
 }
