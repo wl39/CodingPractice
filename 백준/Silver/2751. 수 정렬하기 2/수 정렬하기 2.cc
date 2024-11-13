@@ -1,11 +1,103 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+
 using namespace std;
 
-void merget_sort(int s, int e);
-static vector<int> A;
-static vector<int> tmp;
+void merge(vector<int> &A, vector<int> &temp, int S, int M, int E);
+
+void merge_sort(vector<int> &A);
+
+void merge_sort_helper(vector<int> &A, vector<int> &temp, int S, int E)
+{
+    if (S < E)
+    {
+        int M = (S + E) / 2;
+
+        merge_sort_helper(A, temp, S, M);
+        merge_sort_helper(A, temp, M + 1, E);
+        int i = S;
+        int j = M + 1;
+        int k = S;
+
+        while (i <= M && j <= E)
+        {
+            if (A[i] <= A[j])
+            {
+                temp[k++] = A[i++];
+            }
+            else
+            {
+                temp[k++] = A[j++];
+            }
+        }
+
+        if (i <= M)
+        {
+            for (int l = i; l <= M; l++)
+            {
+                temp[k++] = A[l];
+            }
+        }
+        else
+        {
+            for (int l = j; l <= E; l++)
+            {
+                temp[k++] = A[l];
+            }
+        }
+
+        for (int l = S; l <= E; l++)
+        {
+            A[l] = temp[l];
+        }
+    }
+}
+
+void merge(vector<int> &A, vector<int> &temp, int S, int M, int E)
+{
+    int i = S;
+    int j = M + 1;
+    int k = S;
+
+    while (i <= M && j <= E)
+    {
+        if (A[i] <= A[j])
+        {
+            temp[k++] = A[i++];
+        }
+        else
+        {
+            temp[k++] = A[j++];
+        }
+    }
+
+    if (i <= M)
+    {
+        for (int l = i; l <= M; l++)
+        {
+            temp[k++] = A[l];
+        }
+    }
+    else
+    {
+        for (int l = j; l <= E; l++)
+        {
+            temp[k++] = A[l];
+        }
+    }
+
+    for (int l = S; l <= E; l++)
+    {
+        A[l] = temp[l];
+    }
+}
+
+void merge_sort(vector<int> &A)
+{
+    vector<int> temp(A.size(), 0);
+
+    merge_sort_helper(A, temp, 0, A.size() - 1);
+}
 
 int main()
 {
@@ -15,53 +107,18 @@ int main()
 
     int N;
     cin >> N;
-    A = vector<int>(N + 1, 0);
-    tmp = vector<int>(N + 1, 0);
-    for (int i = 1; i <= N; i++) {
+
+    vector<int> A(N, 0);
+
+    for (int i = 0; i < N; i++)
+    {
         cin >> A[i];
     }
-    merget_sort(1, N); // 병합정렬 수행하기
 
-    for (int i = 1; i <= N; i++) {
+    merge_sort(A);
+
+    for (int i = 0; i < N; i++)
+    {
         cout << A[i] << "\n";
     }
-}
-
-void merget_sort(int s, int e) {
-    if (e - s < 1)
-        return;
-    int m = s + (e - s) / 2;
-    // 재귀함수 형태로 구현
-    merget_sort(s, m);
-    merget_sort(m + 1, e);
-    for (int i = s; i <= e; i++) {
-        tmp[i] = A[i];
-    }
-    int k = s;
-    int index1 = s;
-    int index2 = m + 1;
-    while (index1 <= m && index2 <= e) { // 두 그룹을 Merge 해주는 로직
-        if (tmp[index1] > tmp[index2]) {
-            A[k] = tmp[index2];
-            k++;
-            index2++;
-        }
-        else {
-            A[k] = tmp[index1];
-            k++;
-            index1++;
-        }
-    }
-    // 한쪽 그룹이 모두 선택된 후 남아있는 값 정리하기
-    while (index1 <= m) {
-        A[k] = tmp[index1];
-        k++;
-        index1++;
-    }
-    while (index2 <= e) {
-        A[k] = tmp[index2];
-        k++;
-        index2++;
-    }
-
 }
