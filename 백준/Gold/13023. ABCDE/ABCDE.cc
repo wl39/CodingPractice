@@ -39,6 +39,7 @@ int main()
     cin >> N >> M;
 
     vector<vector<int>> V(N, vector<int>());
+    vector<bool> visited(N, false);
 
     for (int i = 0; i < M; i++)
     {
@@ -58,8 +59,6 @@ int main()
         {
             break;
         }
-
-        vector<bool> visited(N, false);
 
         DFS(V, visited, i, 1, checked);
     }
