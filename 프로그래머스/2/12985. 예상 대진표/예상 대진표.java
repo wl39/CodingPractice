@@ -1,21 +1,12 @@
-import java.lang.Math;
-
 class Solution
 {
     public int solution(int n, int a, int b)
     {
-        int answer = 1;
-        
-        int newA = Math.min(a - 1, b - 1);
-        int newB = Math.max(a - 1, b - 1);
-                
-        while(!(newA % 2 == 0 && newB % 2 == 1 && newB - newA == 1)) {
-            answer++;
-            newA /= 2; 
-            newB /= 2;
-        }
-        
-        
+        int answer = 0;
+
+        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+        System.out.println("Hello Java");
+
         return answer;
     }
 }
